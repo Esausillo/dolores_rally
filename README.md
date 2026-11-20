@@ -1,96 +1,121 @@
-# Rally de la Independencia AR · Dolores Hidalgo
+# Rally de la Independencia AR
 
-Juego de realidad aumentada basado en ubicación para recorrer Dolores Hidalgo: radar, "frío o caliente", trivia histórica, álbum coleccionable y modo demo. Desarrollado con TDD en Flutter.
+Juego de realidad aumentada para recorrer Dolores Hidalgo, desarrollado con **Flutter** siguiendo **TDD** (Test-Driven Development).
 
-**Materia:** Desarrollo Móvil Integral · UTNG
-**Profesor:** Anastacio Rodríguez García
-**Alumno(s):** _(tu nombre / equipo)_
+- **Materia:** Desarrollo Móvil Integral · UTNG
+- **Profesor:** Anastacio Rodríguez García
+- **Alumno(s):** Esaú Rafael Guzmán Almaguer
 
----
+## ¿De qué trata?
 
-## Cómo correrlo
+El jugador camina por el Jardín Principal buscando 6 personajes de la Independencia escondidos al azar. Un radar y un indicador de "frío o caliente" lo guían. Al estar a 15 m o menos, toca al personaje y responde una pregunta de historia para atraparlo y guardarlo en su álbum.
 
-```bash
-flutter pub get
-flutter test
-flutter run
+| Regla | Valor |
+|---|---|
+| Personajes | 6 |
+| Distancia de aparición | 60 a 500 m del Jardín Principal |
+| Radio de captura | 15 m |
+| Intentos | 2 (con 2 fallos el personaje huye y reaparece en otro lugar) |
+| Puntos | 100 al primer intento, 50 al segundo |
+
+## Estructura del proyecto
+
 ```
-
-Para jugar sin salir del salón: en la pantalla de inicio toca **"Modo demo (salón de clases)"**.
-
-## Estructura
-
-```text
 lib/
   dominio/        reglas del juego (Dart puro)
   datos/          GPS, brújula, simuladores y almacenamiento
   presentacion/   ViewModel y pantallas
   main.dart
-test/             pruebas TDD
-capturas/         evidencias de este README
+test/             6 archivos de prueba, 43 pruebas
+capturas/         evidencias del README
+```
+
+## Cómo ejecutarlo
+
+```bash
+flutter pub get
+flutter test      # corre las 43 pruebas
+flutter run       # modo demo disponible sin salir del salón
 ```
 
 ---
 
-## Capturas
+## Evidencias del ciclo TDD (🔴 rojo → 🟢 verde)
 
-> Guarda cada imagen en la carpeta `capturas/` con **exactamente** estos nombres para que se vean aquí.
+En cada ronda se quitó temporalmente el código para ver la prueba **fallar** (rojo) y se restauró para verla **pasar** (verde).
 
-### 1. Pruebas pasando (TDD)
-Resultado de `flutter test` con todas las pruebas en verde.
+### Ronda 2 · Geometría (`geo_test.dart`, 7 pruebas)
+
+| 🔴 Rojo | 🟢 Verde |
+|---|---|
+| ![Ronda 2 rojo](capturas/ronda1r.png) | ![Ronda 2 verde](capturas/ronda1v.png) |
+
+### Ronda 4 · Azar con semilla (`aparicion_test.dart`, 5 pruebas)
+
+| 🔴 Rojo | 🟢 Verde |
+|---|---|
+| ![Ronda 4 rojo](capturas/ronda4r.png) | ![Ronda 4 verde](capturas/ronda4v.png) |
+
+### Ronda 5 · Radar y frío o caliente (`radar_test.dart`, 7 pruebas)
+
+| 🔴 Rojo | 🟢 Verde |
+|---|---|
+| ![Ronda 5 rojo](capturas/ronda5r.png) | ![Ronda 5 verde](capturas/ronda5v.png) |
+
+### Ronda 6 · Motor de realidad aumentada (`motor_ar_test.dart`, 5 pruebas)
+
+| 🔴 Rojo | 🟢 Verde |
+|---|---|
+| ![Ronda 6 rojo](capturas/ronda6r.png) | ![Ronda 6 verde](capturas/ronda6v.png) |
+
+### Ronda 7 · Reglas del juego (`partida_test.dart`, 10 pruebas)
+
+| 🔴 Rojo | 🟢 Verde |
+|---|---|
+| ![Ronda 7 rojo](capturas/ronda7r.png) | ![Ronda 7 verde](capturas/ronda7v.png) |
+
+### Ronda 10 · ViewModel (`rally_viewmodel_test.dart`, 9 pruebas)
+
+| 🔴 Rojo | 🟢 Verde |
+|---|---|
+| ![Ronda 10 rojo](capturas/ronda10r.png) | ![Ronda 10 verde](capturas/ronda10v.png) |
+
+### Suite completa
+
+43 pruebas en verde:
 
 ![flutter test](capturas/01_flutter_test.png)
 
-### 2. Pantalla de inicio
-Con el aviso de seguridad física visible y los botones de jugar, modo demo y álbum.
+---
 
+## Capturas del juego (modo demo)
+
+### 1. Pantalla de inicio
 ![Pantalla de inicio](capturas/02_pantalla_inicio.png)
 
-### 3. Radar y temperatura "Helado"
-Inicio de la partida en modo demo: puntos naranjas en el radar y letrero 🥶.
-
+### 2. Radar con el letrero "🥶 Helado"
 ![Radar helado](capturas/03_radar_helado.jpg)
 
-### 4. Personaje en realidad aumentada
-Un personaje flotando sobre la cámara con su distancia.
+### 3. Personaje en realidad aumentada
+![Personaje AR](capturas/04_personaje_ar.jpg)
 
-![Personaje en AR](capturas/04_personaje_ar.jpg)
-
-### 5. Temperatura "Caliente"
-Después de usar "Avanzar 10 m" varias veces, el letrero se calienta.
-
+### 4. Acercándose: "🔥 Caliente"
 ![Caliente](capturas/05_caliente.jpg)
 
-### 6. Círculo verde "¡Tócame!"
-A 15 m o menos del personaje.
-
+### 5. A 15 m o menos: "¡Tócame!"
 ![Tócame](capturas/06_tocame.jpg)
 
-### 7. Pregunta de historia
-Pantalla de trivia al tocar al personaje.
-
+### 6. Pregunta de historia
 ![Pregunta](capturas/07_pregunta.jpg)
 
-### 8. Personaje que huye
-Después de fallar dos veces, el personaje reaparece lejos.
-
+### 7. Dos fallos: el personaje huye
 ![Huida](capturas/08_huida.jpg)
 
-### 9. Álbum de personajes
-Con los personajes capturados.
-
+### 8. Álbum de personajes
 ![Álbum](capturas/09_album.jpg)
 
 ---
 
-## Reglas del juego
+## Datos históricos
 
-- Se atrapa a un personaje estando a **15 m o menos**.
-- Se captura respondiendo bien una pregunta: **100 puntos** al primer intento, **50** al segundo.
-- Con **2 fallos** el personaje huye y reaparece en otro lugar.
-- Los personajes aparecen entre **60 y 500 m** del Jardín Principal.
-- Temperatura: Ardiente ≤ 15 m · Caliente ≤ 50 m · Tibio ≤ 150 m · Frío ≤ 400 m · Helado más lejos.
-
-## Aviso
-
-Los datos históricos y coordenadas son de práctica; verifícalos con fuentes locales antes de usarlos con alumnos. Juega en grupo y con la vista en el entorno, lejos de calles y obras.
+Los datos del catálogo y las coordenadas son de práctica. Deben verificarse con fuentes históricas locales antes de usar el juego con alumnos.
